@@ -16,7 +16,7 @@
 
 <div id="progress" role="presentation"></div>
 
-<nav id="rail" aria-label="Pages"></nav>
+<nav id="rail" aria-label="Sections"></nav>
 
 <main>
 
@@ -33,7 +33,6 @@
 
 <!-- ============================ PAGE 2 ============================ -->
 <section class="page" id="p2">
-  <header class="ph"><span class="chip">2</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
   <div class="cols cols-2">
     <div>
@@ -58,7 +57,6 @@
 
 <!-- ============================ PAGE 3 ============================ -->
 <section class="page" id="p3">
-  <header class="ph rev"><span class="chip">3</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
   <h2 class="h1">What is the<br><span class="r">March&nbsp;19</span> Process?</h2>
   <p class="kick">From authoritarian competition to a civilian coup</p>
@@ -82,7 +80,6 @@
 
 <!-- ============================ PAGE 4 ============================ -->
 <section class="page" id="p4">
-  <header class="ph"><span class="chip">4</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
   <div class="cols cols-2">
     <div>
@@ -119,7 +116,6 @@
 
 <!-- ============================ PAGE 5 ============================ -->
 <section class="page" id="p5">
-  <header class="ph rev"><span class="chip">5</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
   <div class="cols cols-2r">
     <div>
@@ -158,7 +154,6 @@
 
 <!-- ============================ PAGE 6 ============================ -->
 <section class="page" id="p6">
-  <header class="ph"><span class="chip">6</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
   <div class="cols cols-2">
     <div>
@@ -211,7 +206,6 @@
 
 <!-- ============================ PAGE 7 ============================ -->
 <section class="page" id="p7">
-  <header class="ph rev"><span class="chip">7</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
   <div class="cols cols-2">
     <div>
@@ -250,7 +244,6 @@
 
 <!-- ============================ PAGE 8 ============================ -->
 <section class="page" id="p8">
-  <header class="ph"><span class="chip">8</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
   <div class="cols cols-2">
     <div>
@@ -285,7 +278,6 @@
 
 <!-- ============================ PAGE 9 ============================ -->
 <section class="page" id="p9">
-  <header class="ph rev"><span class="chip">9</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
   <div class="cols cols-2r" style="align-items:center">
     <div>
@@ -418,7 +410,6 @@
 <section class="page" id="p11">
   <div class="bars" aria-hidden="true"></div>
   <div class="inner">
-    <header class="ph rev"><span class="chip">11</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
     <h2 class="h1">The conditions of <span class="m">detention</span></h2>
     <p style="font-weight:600">Systematic practices inside prisons raise serious human rights concerns.</p>
@@ -452,7 +443,6 @@
 
 <!-- ============================ PAGE 12 ============================ -->
 <section class="page" id="p12">
-  <header class="ph"><span class="chip">12</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
   <div class="cols cols-2">
     <div>
@@ -496,7 +486,6 @@
 
 <!-- ============================ PAGE 13 ============================ -->
 <section class="page" id="p13">
-  <header class="ph rev"><span class="chip">13</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
   <h2 class="h1">Who can still <span class="r">run?</span></h2>
   <p>Democratic elections require real competition. But step by step,<br>potential opponents are removed from the field—long before election day.</p>
@@ -531,7 +520,6 @@
 
 <!-- ============================ PAGE 14 (dark) ============================ -->
 <section class="page dark" id="p14">
-  <header class="ph"><span class="chip">14</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
   <div class="cols p14-top">
     <div>
@@ -603,7 +591,6 @@
 
 <!-- ============================ PAGE 15 ============================ -->
 <section class="page" id="p15">
-  <header class="ph rev"><span class="chip">15</span><span class="rt">THE MARCH 19 PROCESS</span><span class="rule"></span></header>
 
   <h2 class="h1">Why Türkiye's democracy<br><span class="m">matters beyond Türkiye</span></h2>
   <p class="lede">Türkiye's democratic trajectory affects not only its own citizens, but regional security, international alliances and the rules-based international order.</p>
@@ -675,14 +662,15 @@
 
 <script>
 (function () {
-  // build page rail
+  // build section rail
   var rail = document.getElementById('rail');
   var pages = Array.prototype.slice.call(document.querySelectorAll('main > .page'));
-  pages.forEach(function (p, i) {
+  pages.forEach(function (p) {
     var a = document.createElement('a');
     a.href = '#' + p.id;
-    a.textContent = i + 1;
-    a.title = 'Page ' + (i + 1);
+    var h = p.querySelector('.h1, h1');
+    a.title = p.getAttribute('aria-label') || (h ? h.textContent.replace(/\s+/g, ' ').trim() : p.id);
+    a.setAttribute('aria-label', a.title);
     rail.appendChild(a);
   });
   var links = rail.querySelectorAll('a');
