@@ -649,16 +649,38 @@
     <p class="ovl t1">Democracy requires<br><span>more than elections</span></p>
     <p class="ovl t2">It requires independent institutions, genuine political competition and the rule of law.<br><br>It also requires international solidarity.</p>
     <p class="ovl t3">Read the updated digital version with sources</p>
-    <p class="ovl t4"><a href="https://march19platform.com">march19platform.com</a></p>
+    <p class="ovl t4"><a href="https://march19platform.com" target="_blank" rel="noopener">march19platform.com</a></p>
     <p class="ovl t5">@March19Platform</p>
+    <nav class="socs" aria-label="March 19 Platform social accounts">
+      <a href="https://www.instagram.com/march19platform" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram" style="left:39.8%;width:4.7%"></a>
+      <a href="https://x.com/march19platform" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)" style="left:44.7%;width:4.4%"></a>
+      <a href="https://www.youtube.com/@march19platform" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube" style="left:48.7%;width:5.1%"></a>
+      <a href="https://bsky.app/profile/march19platform.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky" title="Bluesky" style="left:53.6%;width:4.6%"></a>
+    </nav>
   </div>
 </section>
 
 </main>
 
 <footer class="sitefoot">
-  <p>Prepared and published by the <strong>March 19 Platform</strong> · July 2026 · <a href="https://march19platform.com">march19platform.com</a> · <a href="https://twitter.com/March19Platform">@March19Platform</a></p>
+  <p>Prepared and published by the <strong>March 19 Platform</strong> · July 2026 · <a href="https://march19platform.com" target="_blank" rel="noopener">march19platform.com</a> · <a href="https://x.com/march19platform" target="_blank" rel="noopener">@March19Platform</a></p>
 </footer>
+
+<nav id="dock" aria-label="March 19 Platform accounts">
+  <a class="wm" href="https://march19platform.com" target="_blank" rel="noopener">March 19 Platform</a>
+  <a class="ic" href="https://www.instagram.com/march19platform" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor" stroke="none"/></svg>
+  </a>
+  <a class="ic" href="https://x.com/march19platform" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.67l7.73-8.84L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.12z"/></svg>
+  </a>
+  <a class="ic" href="https://www.youtube.com/@march19platform" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="1.5" y="5" width="21" height="14" rx="3.6"/><path d="M10 9.1l5.4 2.9L10 14.9z" fill="#0f0f0f"/></svg>
+  </a>
+  <a class="ic" href="https://bsky.app/profile/march19platform.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky" title="Bluesky">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 10.8C10.91 8.69 7.95 4.75 5.2 2.8 2.57.94 1.56 1.27.9 1.57.14 1.91 0 3.08 0 3.77c0 .69.38 5.65.62 6.48.82 2.74 3.71 3.66 6.38 3.36-3.91.58-7.39 2.01-2.83 7.08 5.01 5.19 6.87-1.11 7.83-4.31.95 3.2 2.05 9.27 7.73 4.31 4.27-4.31 1.17-6.5-2.74-7.08 2.67.3 5.57-.63 6.38-3.36.25-.83.63-5.79.63-6.48 0-.69-.14-1.86-.9-2.2-.66-.3-1.67-.62-4.3 1.24C16.05 4.75 13.09 8.69 12 10.8z"/></svg>
+  </a>
+</nav>
 
 <script>
 (function () {
@@ -685,12 +707,15 @@
   }, { rootMargin: '-45% 0px -45% 0px' });
   pages.forEach(function (p) { io.observe(p); });
 
-  // reading progress
+  // reading progress + social dock visibility
   var bar = document.getElementById('progress');
+  var dock = document.getElementById('dock');
+  var cover = document.getElementById('p1');
   function prog() {
     var h = document.documentElement;
     var max = h.scrollHeight - h.clientHeight;
     bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+    dock.classList.toggle('on', h.scrollTop > cover.offsetHeight * 0.7);
   }
   addEventListener('scroll', prog, { passive: true });
   prog();
