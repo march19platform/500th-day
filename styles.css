@@ -131,6 +131,24 @@ main { display: flex; flex-direction: column; align-items: center; }
 .caption { font: italic 400 0.82rem/1.5 var(--body); color: #4c4638; }
 .cap-rule { border-left: 2px solid var(--red); padding-left: 12px; margin-top: 10px; }
 
+/* ---------- motion: scroll reveals + parallax accents ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* fade-up reveal, gated on body.anim (added by JS) so no-JS renders everything */
+  body.anim .rv {
+    opacity: 0; transform: translateY(22px);
+    transition: opacity 0.7s ease var(--d, 0s),
+                transform 0.75s cubic-bezier(0.22, 0.65, 0.25, 1) var(--d, 0s);
+  }
+  body.anim .rv.in { opacity: 1; transform: none; }
+
+  /* gentle parallax drift on soft-edged artwork (transform driven by JS) */
+  .plx { will-change: transform; }
+
+  .card11, .tile, .mech { transition: transform 0.25s ease; }
+  .card11:hover, .tile:hover, .mech:hover { transform: translateY(-3px); }
+}
+@media print { .rv { opacity: 1 !important; transform: none !important; } }
+
 /* soft-edge blend for illustration crops */
 .blend {
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent),

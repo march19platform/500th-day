@@ -41,7 +41,7 @@
       <p class="lede">Türkiye is a NATO ally, a G20 economy, and a strategically important country linking Europe, the Black Sea, the Middle East, and the Eastern Mediterranean. Democratic change in Türkiye therefore has consequences far beyond its borders.</p>
     </div>
     <figure class="p2-fig" style="margin:0">
-      <img src="assets/p02-ozel.webp" width="1005" height="1650" alt="CHP leader Özgür Özel raises his fist while standing atop a police water cannon.">
+      <img src="assets/p02-ozel.webp" class="plx" width="1005" height="1650" alt="CHP leader Özgür Özel raises his fist while standing atop a police water cannon.">
       <figcaption class="caption">CHP leader Özgür Özel stands atop a police water cannon during a protest in May 2026 against a court ruling that overturned the party's 2023 congress and effectively removed its elected leadership.</figcaption>
     </figure>
   </div>
@@ -101,7 +101,7 @@
 
     <div>
       <figure style="margin:0 0 1.4em">
-        <img src="assets/p04-imamoglu.webp" width="1275" height="1155" alt="Ekrem İmamoğlu raises his fist at a microphone while addressing supporters.">
+        <img src="assets/p04-imamoglu.webp" class="plx" width="1275" height="1155" alt="Ekrem İmamoğlu raises his fist at a microphone while addressing supporters.">
         <figcaption class="caption cap-rule" style="border-left:none;border-bottom:2px solid var(--ink);padding:8px 0 10px">Ekrem İmamoğlu addresses his supporters after the election results were annulled, vowing to fight back.</figcaption>
       </figure>
       <aside class="sidebox">
@@ -252,7 +252,7 @@
       <p>The March 19 Process did not rely on a single case. It combined dozens of investigations, overlapping prosecutions, prolonged detention, and legal uncertainty into a sustained form of political pressure.</p>
     </div>
     <div class="figovl">
-      <img src="assets/p08-docs.webp" class="blend" width="1221" height="1125" alt="Illustration: a thick stack of case files stamped “POLITICAL PRESSURE”, annotated “Not just a prosecution, a pattern.”">
+      <img src="assets/p08-docs.webp" class="blend plx" width="1221" height="1125" alt="Illustration: a thick stack of case files stamped “POLITICAL PRESSURE”, annotated “Not just a prosecution, a pattern.”">
       <span class="ovl" style="left:22%;top:14%;font-size:4cqw">Political pressure</span>
       <span class="ovl" style="left:8%;top:32%;font-size:3.4cqw;line-height:1.5">Not just<br>a prosecution,<br>a pattern.</span>
     </div>
@@ -286,7 +286,7 @@
     </div>
     <div>
       <div class="figovl">
-        <img src="assets/p09-phones.webp" class="blend" width="1400" height="642" alt="Illustration: five dark phone screens toppling like dominoes, labeled Detention, Pre-trial detention, Investigations, Media leaks, and New cases.">
+        <img src="assets/p09-phones.webp" class="blend plx" width="1400" height="642" alt="Illustration: five dark phone screens toppling like dominoes, labeled Detention, Pre-trial detention, Investigations, Media leaks, and New cases.">
       </div>
       <p class="stamp" style="float:right">Not an isolated case.<br>A continuous pattern.</p>
     </div>
@@ -352,7 +352,7 @@
       </div>
     </div>
 
-    <img src="assets/p10-figure.webp" class="blend deep" width="723" height="1938" alt="Illustration: a man in a jacket marked “DETAINED” stands behind bars of fog; in front of him, his mother, wife and child sit facing him with their backs turned to us." style="align-self:center">
+    <img src="assets/p10-figure.webp" class="blend deep plx" style="--plx:55px" width="723" height="1938" alt="Illustration: a man in a jacket marked “DETAINED” stands behind bars of fog; in front of him, his mother, wife and child sit facing him with their backs turned to us." style="align-self:center">
 
     <div>
       <div class="cat">
@@ -694,6 +694,79 @@
   }
   addEventListener('scroll', prog, { passive: true });
   prog();
+
+  // scroll-triggered reveals + parallax
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var plx = Array.prototype.map.call(document.querySelectorAll('.plx'), function (el) {
+      return { el: el, amp: parseFloat(getComputedStyle(el).getPropertyValue('--plx')) || 28 };
+    });
+    var ticking = false;
+    function par() {
+      ticking = false;
+      var vh = innerHeight;
+      plx.forEach(function (p) {
+        var r = p.el.getBoundingClientRect();
+        var k = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
+        k = Math.max(-1, Math.min(1, k));
+        p.el.style.transform = 'translateY(' + (k * p.amp).toFixed(1) + 'px)';
+      });
+    }
+    addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(par); }
+    }, { passive: true });
+    addEventListener('resize', par);
+    par();
+
+    document.body.classList.add('anim');
+    var GROUPS = '.cols, .cards, .b10, .camp5, .cycle .steps, .journey .steps, .rutable, .shift .cells, .mechpanel .cells, .timeline, .vscol, .stat12';
+    var marked = [];
+    function mark(el, i) {
+      if (el.classList.contains('plx')) return;
+      el.classList.add('rv');
+      if (i) el.style.setProperty('--d', Math.min(i * 90, 540) + 'ms');
+      marked.push(el);
+    }
+    document.querySelectorAll(GROUPS).forEach(function (g) {
+      Array.prototype.forEach.call(g.children, mark);
+    });
+    // stagger icon rows within their list
+    var byParent = new Map();
+    document.querySelectorAll('.irow, .tile, .mech, .wrow, .rrow').forEach(function (el) {
+      var n = (byParent.get(el.parentNode) || 0);
+      byParent.set(el.parentNode, n + 1);
+      mark(el, n);
+    });
+    // whole top-level blocks that aren't stagger containers
+    document.querySelectorAll('main > .page > *').forEach(function (el) {
+      if (!el.matches(GROUPS) && !el.classList.contains('rv')) mark(el, 0);
+    });
+    var rio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    marked.forEach(function (el) { rio.observe(el); });
+
+    // count up the 15.5 million stat when it appears
+    var big = document.querySelector('.bigstat .n');
+    if (big && big.firstChild && big.firstChild.nodeType === 3) {
+      var node = big.firstChild, target = parseFloat(node.nodeValue);
+      if (!isNaN(target)) {
+        var cio = new IntersectionObserver(function (entries) {
+          if (!entries[0].isIntersecting) return;
+          cio.disconnect();
+          var t0 = performance.now();
+          (function tick(t) {
+            var k = Math.min((t - t0) / 1200, 1);
+            node.nodeValue = (target * (1 - Math.pow(1 - k, 3))).toFixed(1);
+            if (k < 1) requestAnimationFrame(tick);
+          })(t0);
+        }, { threshold: 0.6 });
+        node.nodeValue = '0.0';
+        cio.observe(big);
+      }
+    }
+  }
 })();
 </script>
 </body>
